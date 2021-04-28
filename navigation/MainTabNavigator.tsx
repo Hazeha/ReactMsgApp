@@ -6,38 +6,60 @@
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import * as React from 'react';
 
+import { FontAwesome } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
-import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
+import { MainTabParamList, TabOneParamList, TabTwoParamList } from '../types';
 
-const BottomTab = createBottomTabNavigator<BottomTabParamList>();
+const MainTab = createMaterialTopTabNavigator<MainTabParamList>();
 
-export default function BottomTabNavigator() {
+export default function MainTabNavigator() {
   const colorScheme = useColorScheme();
 
   return (
-    <BottomTab.Navigator
-      initialRouteName="TabOne"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
-      <BottomTab.Screen
-        name="TabOne"
+    <MainTab.Navigator
+      initialRouteName="Menu"
+      tabBarOptions={{ 
+        activeTintColor: Colors.dark.background,
+        style: {
+          backgroundColor: Colors[colorScheme].background,
+        },
+        indicatorStyle: {
+          backgroundColor: Colors.dark.tint,
+          height: 3
+        },
+        labelStyle: {
+          fontWeight: 'bold'
+        },
+        showIcon: true
+      }}
+    >
+      <MainTab.Screen
+        name="Menu"
         component={TabOneNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({ color }) => <FontAwesome name="search" size={25} color={color} />,
+          tabBarLabel: () => null
         }}
       />
-      <BottomTab.Screen
-        name="TabTwo"
+      <MainTab.Screen
+        name="Cart"
         component={TabTwoNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
-        }}
       />
-    </BottomTab.Navigator>
+      <MainTab.Screen
+        name="Chats"
+        component={TabTwoNavigator}
+      />
+      <MainTab.Screen
+        name="Status"
+        component={TabTwoNavigator}
+      />
+    </MainTab.Navigator>
   );
 }
 
